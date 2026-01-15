@@ -1,0 +1,4 @@
+UTADDEC: procedure(v, out) byte external;
+    declare v address;
+    declare out address;
+end UTADDEC;

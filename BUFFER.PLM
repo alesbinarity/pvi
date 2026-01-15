@@ -1,0 +1,7 @@
+BUFFER: do;
+
+BUINIT: procedure public;
+;
+end BUINIT;
+
+end;

@@ -1,0 +1,7 @@
+VIEWS: do;
+
+VIINIT: procedure public;
+;
+end;
+
+end;

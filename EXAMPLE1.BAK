@@ -1,0 +1,71 @@
+/* Example print FCB1 FCB2 info and CDM */
+
+EXAMPLE1: do;
+
+$include(IO.INC)
+$include(BDOS.INC)
+
+declare FCB  structure (
+    DriveNum byte, /* 0 - current disk, 1 - drive A, 2 - drive B */
+    FileName(8) byte,
+    FileExt(3) byte,
+    ExtentNum byte,
+    S1 byte,
+    S2 byte,
+    RecordCount byte,
+    AllocationMap(16) byte,
+    CurrentRecord byte,
+    RandomRecordNumber(3) byte) AT (005CH);
+
+declare FCB2  structure (
+    DriveNum byte,
+    FileName(8) byte,
+    FileExt(3) byte,
+    ExtentNum byte,
+    S1 byte,
+    S2 byte,
+    RecordCount byte,
+    AllocationMap(16) byte,
+    CurrentRecord byte,
+    RandomRecordNumber(3) byte) AT (006CH);
+
+declare CDM structure (
+    len byte,
+    text(127) byte
+) AT (0080H);
+
+printstr: PROCEDURE (LEN, strAddress);
+    DECLARE LEN BYTE;
+    DECLARE strAddress ADDRESS;
+
+    DECLARE I BYTE;
+    DECLARE P ADDRESS;
+    DECLARE CH BASED P BYTE;   /* CH указывает на байт по адресу P */  /* :contentReference[oaicite:1]{index=1} */
+
+    P = strAddress;
+
+    DO I = 0 TO LEN - 1;
+        CALL CONOUT(CH);       /* печатаем байт по адресу P */
+        P = P + 1;             /* сдвигаем указатель */
+    END;
+
+END printstr;
+
+    /* print FCB info */
+    call conout(FCB.DriveNum+'A' - 1);
+    call conout(':');
+    call printstr(8, .FCB.FileName);
+    call conout('.');
+    call printstr(3, .FCB.FileExt);
+    call conout(' ');
+    /* print FCB2 info */
+    call conout(FCB2.DriveNum+'A'-1);
+    call conout(':');
+    call printstr(8, .FCB2.FileName);
+    call conout('.');
+    call printstr(3, .FCB2.FileExt);
+    call conout(' ');
+    call printstr(CDM.len, .CDM.text);
+
+end EXAMPLE1;
+

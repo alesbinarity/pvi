@@ -1,0 +1,43 @@
+
+/* CALL BDOS FUNCTIONS WITHOUT RETURN CODE */
+BDOS1: PROCEDURE(FUNC,PARM) external;
+    DECLARE FUNC BYTE;
+    DECLARE PARM ADDRESS;
+END BDOS1;
+
+/* CALL BDOS FUNCTIONS WITH BYTE RETURN CODE */
+BDOS2: PROCEDURE(FUNC,PARM) BYTE external;
+    DECLARE FUNC BYTE;
+    DECLARE PARM ADDRESS;
+END BDOS2;
+
+/***********************************
+  Ввод символа 
+  A = символ
+ ***********************************/
+CONIN: PROCEDURE BYTE EXTERNAL;
+END CONIN;
+
+/*************************************
+  Вывод символа
+  Вход: CH = символ
+ *************************************/
+CONOUT: PROCEDURE (CH) EXTERNAL;
+    DECLARE CH BYTE;
+END CONOUT;
+
+/************************************
+  Проверка клавиатуры
+  Возврат: BYTE
+ ************************************/
+GETC_RAW: PROCEDURE BYTE EXTERNAL;
+END GETC_RAW;
+
+/************************************
+  Вывод 0*terminated строки
+  Вход: STR = адрес строки
+ ************************************/
+PUTSTR: PROCEDURE (STR) EXTERNAL;
+    DECLARE STR ADDRESS;
+END PUTSTR;
+

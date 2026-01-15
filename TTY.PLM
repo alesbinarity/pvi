@@ -1,0 +1,95 @@
+TERM: do;
+
+declare TROWS   literally '24',
+        TCOLS   literally '80',
+        TCUR_SHOW literally '0',
+        TCUR_HIDE literally '1';
+
+CONOUT: procedure(c) external;
+    declare c byte;
+end CONOUT;
+
+PUTSTR: procedure(s) external;
+    declare s address;
+end PUTSTR;
+
+UTADDEC: procedure(v, out) external;
+    declare (v, out) address;
+end UTADDEC;
+
+declare OUTSZ literally '512';
+declare teBuf(OUTSZ) byte;
+declare teLen address;
+
+
+TEFLSH: procedure public;
+    declare i address;
+    do i=0 to teLen;
+        call CONOUT(teBuf(i));
+    end;
+    teLen = 0;
+end TEFLSH;
+
+TEPUTC: procedure(ch) public;
+    declare ch byte;
+    if teLen >=OUTSZ then call TEFLSH;
+    teBuf(teLen) = ch;
+    teLen = teLen +1;
+end TEPUTC;
+
+TEPUTS: procedure(str) public;
+    declare str address;
+    call PUTSTR(str);
+end TEPUTS;
+
+TEPDEC: procedure (v);
+    declare v address;
+    declare b(6) byte;
+    declare i byte;
+    call UTADDEC(v,.b);
+    call TEPUTS(.b);
+end TEPDEC;
+
+
+TEGOTO: procedure (r, c) public;
+    declare (r,c) byte;
+    call TEPUTC(01BH);
+    call TEPUTC('[');
+    call TEPUTC(r);
+    call TEPUTC(';');
+    call TEPUTC(c);
+    call TEPUTC('H');
+end TEGOTO;
+
+TECLS: procedure public;
+    call TEPUTC(01BH);
+    call TEPUTS(.('[2J'));
+    call TEPUTC(01BH);
+    call TEPUTC(.('[H'));
+end TECLS;
+
+TEEOL: procedure public;
+    call TEPUTC(1BH);
+    call TEPUTS(.('[K'));
+end TEEOL;
+
+TECUR: procedure(hide) public;
+    declare hide byte;
+    call TEPUTC(1B);
+    if hide then call TEPUTS(.('[?25l'));
+    else call TEPUTS(.('[?25h'));
+end TECUR;
+
+TEINIT: procedure public;
+    teLen = 0;
+    call TECUR(TCUR_SHOW);
+    call TECLS;
+    call TEFLSH;
+end TEINIT;
+
+TEDONE: procedure public;
+    call TECUR(TCUR_SHOW);
+    call TEFLSH;
+end TEDONE;
+
+end;

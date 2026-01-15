@@ -1,0 +1,67 @@
+/* will by next modules
+   SYSTEM - handle system specifics, fio,
+    keyboard, tty, input-output
+    low level functions.
+   FILE - hi level file handling
+   TTY - implement terminal functions
+   VIEW - rendering to screen
+   UTILS - support utils
+   BUFFER - management text buffer, and indiexes
+
+   SYSTEM -> TTY -> VIEW
+   SYSTEM -> FILE
+*/
+PVI: do;
+
+TEGOTO: procedure(r, c) external;
+    declare (r,c) byte;
+end TEGOTO;
+TEPUTC: procedure(c) external;
+    declare c byte;
+end TEPUTC;
+
+declare (TROWS, TCOLS) byte external;
+
+SYINIT: procedure external;
+end SYINIT;
+
+BUINIT: procedure external;
+end BUINIT;
+
+VIINIT: procedure external;
+end VIINIT;
+
+SYLOADF: procedure external;
+end SYLOADF;
+
+MBOS: procedure;
+    declare i byte;
+
+    call TEGOTO(1,1);
+    do i=0 to TCOLS;
+        call TEPUTC('=');
+    end;
+
+    call TEGOTO(TCOLS,1);
+    do i=0 to TCOLS;
+        call TEPUTC('=');
+    end;
+
+    do i = 2 to TROWS;
+        call TEGOTO(i, 1);
+        call TEPUTC('|');
+        call TEGOTO(i,TCOLS);
+        call TEPUTC('|');
+    end;
+end;
+
+
+call SYINIT;
+call BUINIT;
+call VIINIT;
+call SYLOADF;
+
+
+
+
+end;

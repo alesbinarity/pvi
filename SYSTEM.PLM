@@ -1,0 +1,15 @@
+
+
+
+SYSTEM: do;
+
+SYINIT: procedure public;
+;
+end SYINIT;
+
+SYLOADF: procedure public;
+;
+end SYLOADF;
+
+
+end;
