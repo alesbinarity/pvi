@@ -12,60 +12,87 @@
    SYSTEM -> FILE
 */
 PVI: do;
+    DECLARE JUMP BYTE DATA(0C3H);
+    DECLARE JADR ADDRESS DATA(.PVIENTRY-3);
 
 declare TROWS   literally '24',
         TCOLS   literally '80',
         TCUR_SHOW literally '0',
-        TCUR_HIDE literally '1';
+        TCUR_HIDE literally '1',
+        CR      literally   '0DH',
+        LF      literally   '0AH';
 
-TEGOTO: procedure(r, c) external;
-    declare (r,c) byte;
-end TEGOTO;
-TEPUTC: procedure(c) external;
-    declare c byte;
-end TEPUTC;
+$include(PVI.EXT)
 
+CONIN: procedure byte external;
+end CONIN;
 
-SYINIT: procedure external;
-end SYINIT;
+TECLS: procedure external;
+end TECLS;
 
-BUINIT: procedure external;
-end BUINIT;
+TEPDEC: procedure (v) external;
+    declare v address;
+end TEPDEC;
 
-VIINIT: procedure external;
-end VIINIT;
-
-SYLOADF: procedure external;
-end SYLOADF;
+TEPUTS: procedure(str) external;
+    declare str address;
+end TEPUTS;
 
 MBOS: procedure;
     declare i byte;
+    ;
 
     call TEGOTO(1,1);
-    do i=0 to TCOLS;
+    do i=1 to TCOLS;
+        call TEPUTC('=');
+    end;
+/*
+    call TEPUTC(CR);
+    call TEPUTC(LF);
+    do i=1 to TCOLS;
+        call TEPUTC((i mod 10) +'0');
+    end;
+*/
+    call TEGOTO(TROWS - 1, 1);
+    do i=1 to TCOLS;
         call TEPUTC('=');
     end;
 
-    call TEGOTO(TCOLS,1);
-    do i=0 to TCOLS;
-        call TEPUTC('=');
-    end;
-
-    do i = 2 to TROWS;
+    do i = 2 to TROWS - 2;
         call TEGOTO(i, 1);
         call TEPUTC('|');
-        call TEGOTO(i,TCOLS);
+        call TEGOTO(i,TCOLS-1);
         call TEPUTC('|');
     end;
+
+    call TEGOTO(2, 2);
+    call TEPDEC(2);
+    call TEPDEC(2);
+    call TEGOTO(10, 10);
+    call TEPDEC(10);
+    call TEPDEC(10);
+    call TEGOTO(20, 20);
+    call TEPUTS(.('press q to exit',0));
+
+
 end;
 
+declare ch1 byte;
 
-call SYINIT;
-call BUINIT;
-call VIINIT;
-call SYLOADF;
+PVIENTRY:
+;
 
+call TEINIT;
 
+call MBOS;
+call TEFLSH;
+
+ch1 = CONIN;
+do while ch1 <> 'q';
+    ch1 = CONIN;
+end;
+
+call TEDONE;
 
 
 end;

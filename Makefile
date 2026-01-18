@@ -51,7 +51,7 @@ $(MAIN).LNK: $(LINK_OBJS) CPM.LIB
 	$(ASM80) $<
 
 clean:
-	rm -f *.OBJ *.LNK *.LOC *.MAP *.LST *.HEX *.COM
+	rm -f *.OBJ *.LNK *.LOC *.MAP *.LST *.HEX *.COM ntvcm.log
 
 .PHONY: all clean
 

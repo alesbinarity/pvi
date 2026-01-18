@@ -29,9 +29,10 @@ UTADDEC: procedure(v, out) byte public;
          v = v / 10;
     end;
 
+    
     do while i>0 ;
         i = i -1;
-        outs(i) = tmp(i);
+        outs(j) = tmp(i);
         j = j + 1;
     end;
     outs(j) = 0;

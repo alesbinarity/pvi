@@ -1,0 +1,27 @@
+TEGOTO: procedure(r, c) external;
+    declare (r,c) byte;
+end TEGOTO;
+TEPUTC: procedure(c) external;
+    declare c byte;
+end TEPUTC;
+
+TEFLSH: procedure external;
+end TEFLSH;
+
+TEINIT: procedure external;
+end TEINIT;
+
+TEDONE: procedure external;
+end TEDONE;
+
+SYINIT: procedure external;
+end SYINIT;
+
+BUINIT: procedure external;
+end BUINIT;
+
+VIINIT: procedure external;
+end VIINIT;
+
+SYLOADF: procedure external;
+end SYLOADF;
