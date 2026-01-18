@@ -1,0 +1,11 @@
+CONOUT: procedure(c) external;
+    declare c byte;
+end CONOUT;
+
+PUTSTR: procedure(s) external;
+    declare s address;
+end PUTSTR;
+
+UTADDEC: procedure(v, out) external;
+    declare (v, out) address;
+end UTADDEC;
