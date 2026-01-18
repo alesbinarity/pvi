@@ -13,6 +13,11 @@
 */
 PVI: do;
 
+declare TROWS   literally '24',
+        TCOLS   literally '80',
+        TCUR_SHOW literally '0',
+        TCUR_HIDE literally '1';
+
 TEGOTO: procedure(r, c) external;
     declare (r,c) byte;
 end TEGOTO;
@@ -20,7 +25,6 @@ TEPUTC: procedure(c) external;
     declare c byte;
 end TEPUTC;
 
-declare (TROWS, TCOLS) byte external;
 
 SYINIT: procedure external;
 end SYINIT;

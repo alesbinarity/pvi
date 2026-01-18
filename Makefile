@@ -40,7 +40,7 @@ $(MAIN).LOC: $(MAIN).LNK
 
 # Линкуем проект: первым MAIN_OBJ, затем остальные OBJ, затем CPM.LIB
 $(MAIN).LNK: $(LINK_OBJS) CPM.LIB
-	$(LINKER) $(LINK_OBJS),CPM.LIB TO $@ MAP
+	$(LINKER) $(LINK_OBJS),CPM.LIB,PLM80.LIB TO $@ MAP
 
 # --- компиляция исходников ---
 
