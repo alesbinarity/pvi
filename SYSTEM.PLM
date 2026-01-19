@@ -1,7 +1,5 @@
-
-
-
 SYSTEM: do;
+$include(SYSTEM.EXT)
 
 SYINIT: procedure public;
 ;
