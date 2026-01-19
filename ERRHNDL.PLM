@@ -1,0 +1,15 @@
+ERRHNDL: do;
+
+$include(ERRHNDL.EXT)
+
+declare errmsg1(*) byte data('No file specified',0);
+declare errmsg2(*) byte data('Open fail');
+
+delcare errmsg(*) address data(.errmsg1, .errmsg2);  
+
+ERRSYS: procedure(errcode);
+    call SYMESG(errmsg(errcode));
+    call SYEXIT;
+end ERRSYS;
+
+end;

@@ -1,7 +1,58 @@
 BUFFER: do;
+$include(PVI.LIT)
+declare FCB1 literally '05CH';
+
+
+declare FCBWK structure (DR byte, /* 0 - current, 1 - A, 2 - B */ 
+                        FNAME(8) byte, /* filename (upper case) */
+                        FEXT(3) byte, /* type of file (extention) */
+                        EX byte, /* extent */
+                        s1 byte, /* reserved */
+                        s2 byte, /* reserved */
+                        rc byte, /* record count */
+                        d(16) byte,
+                        cr byte, /* current record */
+                        r(3) byte
+                        );
+declare DMABUF(128) byte;
+/* open file */
+BUOPNF: procedure (FCB) byte;
+    declare FCB address;
+    declare d byte;  
+;
+    d = BDOS2(0FH, FCB);
+    if d = 255 then call ERR(EROPNF);
+end BUOPNF;
+
+/* read file */
+BUREADFR: procedure (FCB, DMAB) byte;
+    declare FCB address;
+    declare DMAB address;
+;
+    call BDOS1(1AH, DMAB);
+    return BDOS2(14H, FCB);
+end BUREAD;
+
+/* close file */
+BUCLSF: procedure (FCB) byte;
+;
+end BUCLSF;
+
+
 
 BUINIT: procedure public;
+
 ;
+/* copy fcb1 */
+    call move(36, FCBDEF, FCBWK);
+    if FCBWK(1)=' ' then call ERR(ERNOF);
+
+
 end BUINIT;
+
+
+
+
+
 
 end;

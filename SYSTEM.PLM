@@ -11,5 +11,14 @@ SYLOADF: procedure public;
 ;
 end SYLOADF;
 
+SYEXIT: procedure public;
+;
+    call BDOS1(0,0);
+end;
+
+SYMESG: procedure(s) public;
+    declare s address;
+    call PUTSTR(s);
+end SYMESG;
 
 end;

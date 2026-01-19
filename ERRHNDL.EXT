@@ -1,0 +1,6 @@
+SYMESG: procedure(s) external;
+    declare s address;
+end SYMESG;
+
+SYEXIT: procedure external;
+end SYEXIT;

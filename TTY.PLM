@@ -1,4 +1,4 @@
-TERM: do;
+TTY: do;
 
 declare TROWS   literally '24',
         TCOLS   literally '80',
